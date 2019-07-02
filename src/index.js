@@ -19,24 +19,26 @@ const connect = (store) => ({getState, dispatch} = store);
 
 const isReady = () => getState !== null && dispatch !== null;
 
-const getTranslatedString = (label) => {
+const getLabel = (component, label) => {
   if (!isReady()) {
     return label;
   }
 
   const {currentLocale, translations} = getState().i18n;
+  const translation = translations[component] || {};
 
-  return get(translations[currentLocale] || {}, label, label);
+  return get(translation[currentLocale] || {}, label, label);
 };
 
-const getLabel = (label, locale) => {
-  if (!isReady()) {
+const getLabelByLocale = (component, label, locale) => {
+  if (!isReady() || !component) {
     return label;
   }
 
   const {translations} = getState().i18n;
+  const translation = translations[component.constructor.name] || {};
 
-  return get(translations[locale] || {}, label, label);
+  return get(translation[locale] || {}, label, label);
 };
 
 /*
@@ -47,7 +49,7 @@ const getLabel = (label, locale) => {
 
 const ActionType = {
   ChangeLocale: 'Action_i18n_ChangeLocale',
-  ChangeTranslationsByLocale: 'Action_i18n_ChangeTranslationsByLocale'
+  ChangeComponentTranslation: 'Action_i18n_ChangeComponentTranslation'
 };
 
 const changeLocale = (locale) => dispatch({
@@ -55,9 +57,10 @@ const changeLocale = (locale) => dispatch({
   locale
 });
 
-const changeTranslationsByLocale = (translations, locale) => dispatch({
-  type: ActionType.ChangeTranslationsByLocale,
+const changeComponentTranslation = (component, translations, locale) => dispatch({
+  type: ActionType.ChangeComponentTranslation,
   locale,
+  name: component.constructor.name,
   translations
 });
 
@@ -69,7 +72,7 @@ const changeTranslationsByLocale = (translations, locale) => dispatch({
 
 const getInitialState = () => ({
   currentLocale: '',
-  getLabel: (label) => label,
+  getLabel: (item, label) => label,
   translations: {}
 });
 
@@ -78,15 +81,19 @@ const i18nReducer = (state = getInitialState(), action) => {
     case ActionType.ChangeLocale:
       return {
         ...state,
-        getLabel: (label) => getLabel(label, action.locale),
+        getLabel: (item, label) => getLabelByLocale(item, label, action.locale),
         currentLocale: action.locale
       };
-    case ActionType.ChangeTranslationsByLocale:
+
+    case ActionType.ChangeComponentTranslation:
       return {
         ...state,
         translations: {
           ...state.translations,
-          [action.locale]: action.translations
+          [action.name]: {
+            ...state.translations[action.name],
+            [action.locale]: action.translations
+          }
         }
       };
     default:
@@ -103,14 +110,14 @@ const i18nReducer = (state = getInitialState(), action) => {
 const i18n = {
   connect,
   isReady,
-  translate: getTranslatedString,
-  getTranslatorFromState: (state) => state.i18n.getLabel,
+  translate: getLabel,
+  getLabel: (state) => state.i18n.getLabel,
   reducers: {
     i18n: i18nReducer
   },
   actions: {
-    changeLocale,
-    changeTranslationsByLocale
+    changeComponentTranslation,
+    changeLocale
   }
 };
 

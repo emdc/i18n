@@ -8,26 +8,22 @@ class App extends React.Component {
   constructor (props) {
     super(props);
 
-    i18n.actions.changeTranslationsByLocale({test: 'Test label'}, 'en');
-    i18n.actions.changeTranslationsByLocale({test: 'Тестовая надпись'}, 'ru');
+    i18n.actions.changeComponentTranslation(this,{test: 'Test label'}, 'en');
+    i18n.actions.changeComponentTranslation(this,{test: 'Тестовая надпись'}, 'ru');
     i18n.actions.changeLocale('en');
-  }
 
-  setLocale (locale) {
-    i18n.actions.changeLocale(locale);
+    this.translate = (label) => this.props.translate(this, label);
   }
 
   render () {
-    const {translate} = this.props;
-
     return (
       <div>
         <div>
-          <button onClick={() => this.setLocale('en')}>{'Switch to English'}</button>
-          <button onClick={() => this.setLocale('ru')}>{'Переключиться на русский язык'}</button>
+          <button onClick={() => i18n.actions.changeLocale('en')}>{'Switch to English'}</button>
+          <button onClick={() => i18n.actions.changeLocale('ru')}>{'Переключиться на русский язык'}</button>
         </div>
         <div>
-          {translate('test')}
+          {this.translate('test')}
         </div>
       </div>
     );
@@ -39,7 +35,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  translate: i18n.getTranslatorFromState(state)
+  translate: i18n.getLabel(state)
 });
 
 export default connect(mapStateToProps, {})(App);
