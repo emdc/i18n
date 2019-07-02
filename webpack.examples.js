@@ -12,11 +12,11 @@ module.exports = {
       '@babel/register',
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
-      './examples/simple/src/index.jsx'
+      './examples/simple-react/src/index.jsx'
     ]
   },
   output: {
-    path: path.resolve(__dirname, './examples/simple/public/'),
+    path: path.resolve(__dirname, './examples/simple-react/public/'),
     filename: 'assets/js/[name].min.js',
     publicPath: '/'
   },
@@ -32,7 +32,7 @@ module.exports = {
       alwaysWriteToDisk: true,
       title: '@emdc/i18n',
       filename: 'index.html',
-      template: './examples/simple/src/template.hbs',
+      template: './examples/simple-react/src/template.hbs',
       env: '"development"',
       hash: true,
       inject: false
@@ -50,7 +50,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       '@emdc/i18n': path.resolve(__dirname, './src'),
-      view: path.resolve(__dirname, './examples/simple/src/view')
+      view: path.resolve(__dirname, './examples/simple-react/src/view')
     }
   },
   module: {

@@ -8,11 +8,15 @@ class App extends React.Component {
   constructor (props) {
     super(props);
 
-    i18n.actions.changeComponentTranslation(this,{test: 'Test label'}, 'en');
-    i18n.actions.changeComponentTranslation(this,{test: 'Тестовая надпись'}, 'ru');
+    // Save translations
+    i18n.actions.changeTranslation(this.constructor.name, {test: 'Test label'}, 'en');
+    i18n.actions.changeTranslation(this.constructor.name, {test: 'Тестовая надпись'}, 'ru');
+
+    // Set current locale
     i18n.actions.changeLocale('en');
 
-    this.translate = (label) => this.props.translate(this, label);
+    // Create translator for this component
+    this.translate = (label) => this.props.translate(this.constructor.name, label);
   }
 
   render () {
@@ -23,6 +27,7 @@ class App extends React.Component {
           <button onClick={() => i18n.actions.changeLocale('ru')}>{'Переключиться на русский язык'}</button>
         </div>
         <div>
+          {'Translated label: '}
           {this.translate('test')}
         </div>
       </div>

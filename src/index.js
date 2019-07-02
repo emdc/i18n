@@ -36,7 +36,7 @@ const getLabelByLocale = (component, label, locale) => {
   }
 
   const {translations} = getState().i18n;
-  const translation = translations[component.constructor.name] || {};
+  const translation = translations[component] || {};
 
   return get(translation[locale] || {}, label, label);
 };
@@ -49,7 +49,7 @@ const getLabelByLocale = (component, label, locale) => {
 
 const ActionType = {
   ChangeLocale: 'Action_i18n_ChangeLocale',
-  ChangeComponentTranslation: 'Action_i18n_ChangeComponentTranslation'
+  ChangeTranslation: 'Action_i18n_ChangeTranslation'
 };
 
 const changeLocale = (locale) => dispatch({
@@ -57,10 +57,10 @@ const changeLocale = (locale) => dispatch({
   locale
 });
 
-const changeComponentTranslation = (component, translations, locale) => dispatch({
-  type: ActionType.ChangeComponentTranslation,
+const changeTranslation = (component, translations, locale) => dispatch({
+  type: ActionType.ChangeTranslation,
   locale,
-  name: component.constructor.name,
+  component,
   translations
 });
 
@@ -85,13 +85,13 @@ const i18nReducer = (state = getInitialState(), action) => {
         currentLocale: action.locale
       };
 
-    case ActionType.ChangeComponentTranslation:
+    case ActionType.ChangeTranslation:
       return {
         ...state,
         translations: {
           ...state.translations,
-          [action.name]: {
-            ...state.translations[action.name],
+          [action.component]: {
+            ...state.translations[action.component],
             [action.locale]: action.translations
           }
         }
@@ -116,7 +116,7 @@ const i18n = {
     i18n: i18nReducer
   },
   actions: {
-    changeComponentTranslation,
+    changeTranslation,
     changeLocale
   }
 };

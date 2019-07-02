@@ -4,7 +4,7 @@
   "description": "i18n library",
   "main": "src/index.js",
   "scripts": {
-    "start": "node examples/simple/server.js",
+    "start": "node examples/simple-react/devServer.js",
     "test": "mocha-webpack --opts test.opts \"test/**/*.js\""
   },
   "repository": {
