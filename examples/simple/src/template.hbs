@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+
+  <title>{{htmlWebpackPlugin.options.title}}</title>
+
+  {{#each htmlWebpackPlugin.files.css}}
+    <link rel="stylesheet" href="{{this}}" />
+  {{/each}}
+
+  <style>
+    #root {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  {{#each htmlWebpackPlugin.files.js}}
+    <script crossorigin src="{{this}}"></script>
+  {{/each}}
+</body>
+</html>

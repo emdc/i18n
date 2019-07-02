@@ -29,6 +29,16 @@ const getTranslatedString = (label) => {
   return get(translations[currentLocale] || {}, label, label);
 };
 
+const getLabel = (label, locale) => {
+  if (!isReady()) {
+    return label;
+  }
+
+  const {translations} = getState().i18n;
+
+  return get(translations[locale] || {}, label, label);
+};
+
 /*
  * ============================================================================
  * Actions
@@ -59,6 +69,7 @@ const changeTranslationsByLocale = (translations, locale) => dispatch({
 
 const getInitialState = () => ({
   currentLocale: '',
+  getLabel: (label) => label,
   translations: {}
 });
 
@@ -67,6 +78,7 @@ const i18nReducer = (state = getInitialState(), action) => {
     case ActionType.ChangeLocale:
       return {
         ...state,
+        getLabel: (label) => getLabel(label, action.locale),
         currentLocale: action.locale
       };
     case ActionType.ChangeTranslationsByLocale:
@@ -91,7 +103,8 @@ const i18nReducer = (state = getInitialState(), action) => {
 const i18n = {
   connect,
   isReady,
-  get: getTranslatedString,
+  translate: getTranslatedString,
+  getTranslatorFromState: (state) => state.i18n.getLabel,
   reducers: {
     i18n: i18nReducer
   },
