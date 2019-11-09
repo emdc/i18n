@@ -1,4 +1,3 @@
-const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -8,9 +7,9 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     app: [
-      '@babel/polyfill',
+      'core-js/stable',
+      'regenerator-runtime/runtime',
       '@babel/register',
-      'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       './examples/simple-react/src/index.jsx'
     ]
@@ -50,8 +49,10 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       '@emdc/i18n': path.resolve(__dirname, './src'),
+      'react-dom': '@hot-loader/react-dom',
       view: path.resolve(__dirname, './examples/simple-react/src/view')
     }
+
   },
   module: {
     rules: [{
