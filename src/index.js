@@ -5,12 +5,10 @@ import localize from './localize';
 
 const i18n = {
   Provider: TranslateProvider,
-  changeLocale: (locale) => LocaleStorage.changeLocale(locale),
-  translate: (componentName, labelPath) => LocaleStorage.translate(componentName, labelPath)
+  localize,
+  setLocale: LocaleStorage.setLocale.bind(LocaleStorage),
+  setFallbackLocale: LocaleStorage.setFallbackLocale.bind(LocaleStorage),
+  translate: LocaleStorage.translate.bind(LocaleStorage)
 };
 
 export default i18n;
-
-export {
-  localize
-};

@@ -14,13 +14,13 @@ const localize = (translations, name) => {
 
     LocaleStorage.addTranslations(translations, translateName);
 
-    const translateFn = (labelPath) => LocaleStorage.translate(translateName, labelPath);
+    const translateFn = (labelPath, locale) => LocaleStorage.translate(translateName, labelPath, locale);
 
     const Wrap = (props) => (
       <Component
         {...props}
         currentLocale={LocaleStorage.currentLocale}
-        changeLocale={LocaleStorage.changeLocale}
+        setLocale={LocaleStorage.setLocale.bind(LocaleStorage)}
         translate={translateFn}
       />
     );
@@ -30,6 +30,7 @@ const localize = (translations, name) => {
     Wrap.WrappedComponent = Component;
 
     Component.translate = translateFn;
+    Component.setLocale = LocaleStorage.setLocale.bind(LocaleStorage);
 
     return Wrap;
   }

@@ -12,7 +12,8 @@ const renderApp = (AppComponent) => {
     throw new Error('Couldn\'t find element with id root');
   }
 
-  i18n.changeLocale('ru');
+  i18n.setLocale('en');
+  i18n.setFallbackLocale('en');
 
   ReactDOM.render(
     <AppContainer>

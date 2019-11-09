@@ -3,12 +3,6 @@ import TranslateProvider from './TranslateProvider';
 
 
 class LocaleStorage {
-  static _storage = new LocaleStorage();
-
-  static get instance () {
-    return LocaleStorage._storage;
-  }
-
   constructor() {
     this._locales = {};
     this._data = {};
@@ -25,7 +19,7 @@ class LocaleStorage {
     return this._fallbackLocale;
   }
 
-  changeLocale (locale) {
+  setLocale (locale) {
     if (!locale) {
       if (!this._fallbackLocale) {
         throw new Error(`[@emdc/i18n] Try to change locale to "${locale}", but no fallback locale found.`);
@@ -38,6 +32,10 @@ class LocaleStorage {
     if (TranslateProvider.instance) {
       TranslateProvider.instance.setLocale(this._currentLocale);
     }
+  }
+
+  setFallbackLocale (locale) {
+    this._fallbackLocale = locale;
   }
 
   addTranslations (translations, componentName) {
@@ -59,7 +57,7 @@ class LocaleStorage {
     });
   }
 
-  translate (componentName, labelPath, locale = LocaleStorage.instance.currentLocale) {
+  translate (componentName, labelPath, locale = this.currentLocale) {
     if (!componentName || typeof componentName !== 'string') {
       throw new Error(`[@emdc/i18n] Invalid component name: "${componentName}". Name should be a string.`);
     }
@@ -73,7 +71,12 @@ class LocaleStorage {
       return labelPath;
     }
 
-    const value = get(this._data[locale][componentName], labelPath, labelPath);
+    let value = get(this._data[locale][componentName], labelPath);
+
+    if (!value && this.fallbackLocale) {
+      console.warn(`[@emdc/i18n] Using fallback locale "${this.fallbackLocale}" for translate ${componentName}:${labelPath}`);
+      value = get(this._data[this.fallbackLocale][componentName], labelPath, labelPath)
+    }
 
     if (typeof value !== 'string') {
       throw new Error(`[@emdc/i18n] Label by path "${labelPath}" isn't string. Specify the path or check the list of translations.`)
@@ -83,4 +86,4 @@ class LocaleStorage {
   }
 }
 
-export default LocaleStorage.instance;
+export default new LocaleStorage();

@@ -2,16 +2,6 @@ import * as React from 'react';
 
 
 class  TranslateProvider extends React.PureComponent {
-  static _instance = null;
-
-  static get instance () {
-    return TranslateProvider._instance;
-  }
-
-  static set instance (value) {
-    TranslateProvider._instance = value;
-  }
-
   constructor (props) {
     super(props);
 
@@ -35,5 +25,11 @@ class  TranslateProvider extends React.PureComponent {
     });
   }
 }
+
+Object.defineProperty(TranslateProvider, 'instance', {
+  enumerable: false,
+  configurable: false,
+  writable: true
+});
 
 export default TranslateProvider;
