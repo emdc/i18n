@@ -2,7 +2,7 @@
 
 ## Dependencies
 
-* lodash
+None
 
 ## Benefits
 
