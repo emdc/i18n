@@ -16,7 +16,9 @@ const renderApp = (AppComponent) => {
 
   ReactDOM.render(
     <AppContainer>
-      <AppComponent />
+      <i18n.Provider>
+        <AppComponent />
+      </i18n.Provider>
     </AppContainer>,
     element
   );

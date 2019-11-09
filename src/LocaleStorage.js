@@ -1,4 +1,5 @@
 import {get, merge} from 'lodash';
+import TranslateProvider from './TranslateProvider';
 
 
 class LocaleStorage {
@@ -33,6 +34,10 @@ class LocaleStorage {
     } else {
       this._currentLocale = locale;
     }
+
+    if (TranslateProvider.instance) {
+      TranslateProvider.instance.setLocale(this._currentLocale);
+    }
   }
 
   addTranslations (translations, componentName) {
@@ -54,7 +59,7 @@ class LocaleStorage {
     });
   }
 
-  translate (componentName, labelPath) {
+  translate (componentName, labelPath, locale = LocaleStorage.instance.currentLocale) {
     if (!componentName || typeof componentName !== 'string') {
       throw new Error(`[@emdc/i18n] Invalid component name: "${componentName}". Name should be a string.`);
     }
@@ -63,9 +68,8 @@ class LocaleStorage {
       throw new Error(`[@emdc/i18n] Invalid label path for component "${componentName}". Path: "${labelPath}", it should be a string.`);
     }
 
-    const locale = this._currentLocale || this._fallbackLocale;
-
     if (!locale) {
+      console.warn(`Invalid locale: "${locale}"`);
       return labelPath;
     }
 
