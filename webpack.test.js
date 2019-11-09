@@ -26,7 +26,20 @@ module.exports = {
       '@emdc/i18n': path.resolve(__dirname, './src'),
     }
   },
-  module: {},
+  module: {
+    rules: [{
+      test: /(\.js|\.jsx)$/,
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          compact: false
+        }
+      }]
+    }, {
+      test: /\.hbs$/,
+      loader: 'handlebars-loader'
+    }]
+  },
   stats: {
     cached: false,
     cachedAssets: false,
