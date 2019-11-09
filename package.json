@@ -13,8 +13,7 @@
   },
   "keywords": [
     "i18n",
-    "l10n",
-    "redux"
+    "l10n"
   ],
   "author": {
     "name": "Richard Elert",
@@ -26,33 +25,34 @@
   },
   "homepage": "https://github.com/emdc/i18n#readme",
   "dependencies": {
-    "lodash": "^4.17.11",
-    "redux": "^4.0.1"
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@babel/core": "7.4.5",
-    "@babel/polyfill": "7.4.4",
-    "@babel/preset-env": "7.4.5",
-    "@babel/preset-react": "7.0.0",
-    "@babel/register": "7.4.4",
+    "@babel/core": "7.6.4",
+    "@babel/plugin-proposal-decorators": "7.6.0",
+    "@babel/preset-env": "7.6.3",
+    "@babel/preset-react": "7.6.3",
+    "@babel/register": "7.6.2",
+    "@hot-loader/react-dom": "16.10.2",
     "babel-loader": "8.0.6",
     "chai": "4.2.0",
+    "core-js": "3.3.2",
     "express": "4.17.1",
-    "handlebars": "4.1.2",
+    "handlebars": "4.4.3",
     "handlebars-loader": "1.7.1",
     "html-webpack-harddisk-plugin": "1.0.1",
     "html-webpack-plugin": "3.2.0",
-    "mocha": "6.1.4",
+    "mocha": "5.2.0",
     "mocha-webpack": "2.0.0-beta.0",
     "prop-types": "15.7.2",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-hot-loader": "4.11.0",
-    "react-redux": "7.1.0",
-    "redux-thunk": "2.3.0",
-    "webpack": "4.32.2",
-    "webpack-cli": "3.3.2",
-    "webpack-dev-middleware": "3.7.0",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
+    "react-hot-loader": "4.12.15",
+    "regenerator-runtime": "0.13.3",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.9",
+    "webpack-dev-middleware": "3.7.2",
     "webpack-hot-middleware": "2.25.0",
     "webpack-node-externals": "1.7.2"
   }

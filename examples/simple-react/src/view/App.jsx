@@ -1,46 +1,52 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import i18n from '@emdc/i18n';
+import i18n, {localize} from '@emdc/i18n';
 
 
+const translationsComp = {
+  en: {
+    test: 'Component label'
+  },
+  ru: {
+    test: 'Текст Comp'
+  }
+};
+
+const translationsApp = {
+  en: {
+    test: 'App label'
+  },
+  ru: {
+    test: 'Текст App'
+  }
+};
+
+const Comp = localize(translationsComp, 'Comp')(({translate}) => (
+  <div>
+    {translate('test')}
+  </div>
+));
+
+
+@localize(translationsApp)
 class App extends React.Component {
   constructor (props) {
     super(props);
-
-    // Save translations
-    i18n.actions.changeTranslation(this.constructor.name, {test: 'Test label'}, 'en');
-    i18n.actions.changeTranslation(this.constructor.name, {test: 'Тестовая надпись'}, 'ru');
-
-    // Set current locale
-    i18n.actions.changeLocale('en');
-
-    // Create translator for this component
-    this.translate = (label) => this.props.translate(this.constructor.name, label);
   }
 
   render () {
     return (
       <div>
         <div>
-          <button onClick={() => i18n.actions.changeLocale('en')}>{'Switch to English'}</button>
-          <button onClick={() => i18n.actions.changeLocale('ru')}>{'Переключиться на русский язык'}</button>
+          <button onClick={() => i18n.changeLocale('en')}>{'Switch to English'}</button>
+          <button onClick={() => i18n.changeLocale('ru')}>{'Переключиться на русский язык'}</button>
         </div>
         <div>
-          {'Translated label: '}
-          {this.translate('test')}
+          {`Translated label: ${App.translate('test')}`}
+          <Comp />
         </div>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  translate: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  translate: i18n.getLabel(state)
-});
-
-export default connect(mapStateToProps, {})(App);
+export default App;
