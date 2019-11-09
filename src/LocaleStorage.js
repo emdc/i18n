@@ -1,4 +1,4 @@
-import {get, merge} from 'lodash';
+import {get, merge} from './utils';
 import TranslateProvider from './TranslateProvider';
 
 
@@ -67,15 +67,14 @@ class LocaleStorage {
     }
 
     if (!locale) {
-      console.warn(`Invalid locale: "${locale}"`);
+      console.warn(`[@emdc/i18n] Invalid locale: "${locale}"`);
       return labelPath;
     }
 
-    let value = get(this._data[locale][componentName], labelPath);
+    let value = this._getLabelByLocale(componentName, labelPath, locale);
 
-    if (!value && this.fallbackLocale) {
-      console.warn(`[@emdc/i18n] Using fallback locale "${this.fallbackLocale}" for translate ${componentName}:${labelPath}`);
-      value = get(this._data[this.fallbackLocale][componentName], labelPath, labelPath)
+    if (!value) {
+      value = this._getLabelByFallbackLocale(componentName, labelPath);
     }
 
     if (typeof value !== 'string') {
@@ -84,6 +83,25 @@ class LocaleStorage {
 
     return value;
   }
+
+  _getLabelByLocale (componentName, labelPath, locale) {
+    if (!this._data[locale]) {
+      return null;
+    }
+
+    return get(this._data[locale][componentName], labelPath)
+  }
+
+  _getLabelByFallbackLocale (componentName, labelPath) {
+    if (!this.fallbackLocale || !this._data[this.fallbackLocale]) {
+      return labelPath;
+    }
+
+    console.warn(`[@emdc/i18n] Using fallback locale "${this.fallbackLocale}" for translate ${componentName}:${labelPath}`);
+    return get(this._data[this.fallbackLocale][componentName], labelPath, labelPath);
+  }
 }
 
 export default new LocaleStorage();
+
+export {LocaleStorage};
