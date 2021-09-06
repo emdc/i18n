@@ -9,7 +9,7 @@
     "start": "",
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "test": "cross-env TS_NODE_PROJECT=\"tsconfig.test.json\" mocha",
-    "publish": "npm publish --access public"
+    "publish": "npm publish"
   },
   "repository": {
     "type": "git",
