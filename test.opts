@@ -1,3 +1,0 @@
---webpack-config ./webpack.test.js
---recursive
---timeout 15000

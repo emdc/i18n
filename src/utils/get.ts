@@ -1,9 +1,5 @@
-export const get = (object, path, defaultValue = null) => {
+export const get = (object: object, path: string, defaultValue: any = null) => {
   if (!object || typeof object !== 'object') {
-    return null;
-  }
-
-  if (typeof path !== 'string') {
     return null;
   }
 
@@ -11,7 +7,11 @@ export const get = (object, path, defaultValue = null) => {
   let res = object;
 
   for (let i = 0; i < nodes.length; i += 1) {
-    res = res[nodes[i]];
+    if (res[nodes[i]]) {
+      res = res[nodes[i]];
+    } else {
+      return defaultValue;
+    }
   }
 
   return res || defaultValue;

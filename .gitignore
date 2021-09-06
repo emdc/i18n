@@ -43,6 +43,7 @@ jspm_packages
 
 # Compiled bundles
 public
+dist
 
 # Other
 package-lock.json

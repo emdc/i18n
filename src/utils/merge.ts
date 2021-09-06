@@ -1,6 +1,7 @@
-const isObject = (item) => item && typeof item === 'object' && !Array.isArray(item);
+const isObject = (item: any) => item && typeof item === 'object' && !Array.isArray(item);
 
-export const merge = (target, ...sources) => {
+
+export const merge = (target: object, ...sources: any): object => {
   if (!sources.length) return target;
   const source = sources.shift();
 
